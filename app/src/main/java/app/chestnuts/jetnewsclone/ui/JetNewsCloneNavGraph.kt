@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navDeepLink
 import app.chestnuts.jetnewsclone.data.AppContainer
 import app.chestnuts.jetnewsclone.ui.home.HomeRoute
 import app.chestnuts.jetnewsclone.ui.interests.InterestsRoute
@@ -16,6 +15,7 @@ fun JetNewsCloneNavGraph(
     appContainer: AppContainer,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    openDrawer: () -> Unit,
     startDestination: String = JetNewsCloneDestinations.HOME_ROUTE,
 ) {
     NavHost(
@@ -26,13 +26,13 @@ fun JetNewsCloneNavGraph(
         composable(
             route = JetNewsCloneDestinations.HOME_ROUTE,
         ) { navBackStackEntry ->
-            HomeRoute()
+            HomeRoute(openDrawer)
         }
 
         composable(
             route = JetNewsCloneDestinations.INTERESTS_ROUTE,
         ) { navBackStackEntry ->
-            InterestsRoute()
+            InterestsRoute(openDrawer)
         }
     }
 }
