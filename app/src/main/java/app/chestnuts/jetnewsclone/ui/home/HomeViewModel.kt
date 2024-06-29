@@ -50,6 +50,10 @@ class HomeViewModel(
             }
         }
     }
+
+    fun onClickPost(id: String) {
+        println("TODO : $id clicked")
+    }
 }
 
 sealed interface HomeUiState {

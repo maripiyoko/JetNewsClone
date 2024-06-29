@@ -1,7 +1,5 @@
 package app.chestnuts.jetnewsclone.model
 
-import androidx.annotation.DrawableRes
-
 data class Post(
     val id: String,
     val title: String,
@@ -10,6 +8,8 @@ data class Post(
     val publication: Publication? = null,
     val metadata: Metadata,
     val paragraphs: List<Paragraph>,
+    val thumbnailImageUrl: String? = null,
+    val imageUrl: String? = null,
 )
 
 data class Metadata(

@@ -1,5 +1,6 @@
 package app.chestnuts.jetnewsclone.ui.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.chestnuts.jetnewsclone.R
 import app.chestnuts.jetnewsclone.model.PostsFeed
 import app.chestnuts.jetnewsclone.ui.home.views.PostCardSimple
+import app.chestnuts.jetnewsclone.ui.home.views.PostListDivider
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,7 +62,10 @@ private fun HomeScreen(
                         HomeEmptyView()
                     }
                     is HomeUiState.HasPosts -> {
-                        HomePostsView(state.postsFeed)
+                        HomePostsView(
+                            postsFeed = state.postsFeed,
+                            onClickAction = viewModel::onClickPost
+                        )
                     }
                 }
             }
@@ -96,14 +101,22 @@ private fun HomeEmptyView(
 @Composable
 private fun HomePostsView(
     postsFeed: PostsFeed,
+    onClickAction: (String) -> Unit,
     state: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(2.dp),
+        contentPadding = PaddingValues(16.dp),
         state = state,
     ) {
+        item {
+            PostListDivider()
+        }
         items(postsFeed.allPosts) { post ->
-            PostCardSimple(post)
+            PostCardSimple(
+                post = post,
+                onClickPost = onClickAction
+            )
+            PostListDivider()
         }
     }
 }
