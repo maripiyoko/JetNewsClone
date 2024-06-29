@@ -12,16 +12,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import app.chestnuts.jetnewsclone.data.AppContainer
 import app.chestnuts.jetnewsclone.ui.components.AppNavRail
+import app.chestnuts.jetnewsclone.ui.theme.JetNewsCloneAppTheme
 import kotlinx.coroutines.launch
 
 @Composable
 fun JetNewsCloneApp(
-    appContainer: AppContainer,
     widthSizeClass: WindowWidthSizeClass,
 ) {
-    //JetNewsCloneAppTheme {
+    JetNewsCloneAppTheme {
         val navController = rememberNavController()
         val navigationActions = remember(navController) {
             JetNewsCloneNavigationActions(navController)
@@ -56,13 +55,12 @@ fun JetNewsCloneApp(
                     )
                 }
                 JetNewsCloneNavGraph(
-                    appContainer = appContainer,
                     navController = navController,
                     openDrawer = { coroutineScope.launch { sizeAwareDrawerState.open() }}
                 )
             }
         }
-    //}
+    }
 }
 
 @Composable

@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import app.chestnuts.jetnewsclone.R
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeRoute(
@@ -51,6 +52,7 @@ private fun HomeScreen(
 @Composable
 private fun HomeAppTopBar(
     openDrawer: () -> Unit,
+    viewModel: HomeViewModel = koinViewModel(),
     topAppBarState: TopAppBarState = rememberTopAppBarState(),
 ) {
     CenterAlignedTopAppBar(

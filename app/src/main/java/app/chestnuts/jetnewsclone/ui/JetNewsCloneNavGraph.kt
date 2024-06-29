@@ -6,13 +6,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import app.chestnuts.jetnewsclone.data.AppContainer
 import app.chestnuts.jetnewsclone.ui.home.HomeRoute
 import app.chestnuts.jetnewsclone.ui.interests.InterestsRoute
 
 @Composable
 fun JetNewsCloneNavGraph(
-    appContainer: AppContainer,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     openDrawer: () -> Unit,
