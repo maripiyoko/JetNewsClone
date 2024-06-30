@@ -3,10 +3,7 @@ package app.chestnuts.jetnewsclone.ui.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -41,14 +38,19 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeRoute(
     openDrawer: () -> Unit,
+    onSelectPost: (String) -> Unit,
 ) {
-    HomeScreen(openDrawer = openDrawer)
+    HomeScreen(
+        openDrawer = openDrawer,
+        onSelectPost = onSelectPost,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreen(
     openDrawer: () -> Unit,
+    onSelectPost: (String) -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -72,7 +74,10 @@ private fun HomeScreen(
                     is HomeUiState.HasPosts -> {
                         HomeWithPostFeeds(
                             postsFeed = state.postsFeed,
-                            onClickAction = viewModel::onClickPost,
+                            onClickAction = { postId ->
+                                viewModel.onClickPost(postId)
+                                onSelectPost(postId)
+                            },
                         )
                     }
                 }
