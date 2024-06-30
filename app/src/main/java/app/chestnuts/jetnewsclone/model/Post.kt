@@ -21,7 +21,11 @@ data class Metadata(
 data class Publication(
     val name: String,
     val logoUrl: String,
-)
+) {
+    companion object {
+        fun empty(): Publication = Publication(name = "", logoUrl = "")
+    }
+}
 
 data class PostAuthor(
     val name: String,

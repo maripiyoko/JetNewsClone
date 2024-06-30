@@ -56,6 +56,7 @@ fun JetNewsCloneApp(
                 }
                 JetNewsCloneNavGraph(
                     navController = navController,
+                    navigateToPostDetail = navigationActions.navigateToPostDetail,
                     openDrawer = { coroutineScope.launch { sizeAwareDrawerState.open() }}
                 )
             }
