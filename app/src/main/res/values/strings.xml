@@ -3,4 +3,6 @@
 
     <string name="home_title">HOME</string>
     <string name="interests_title">INTERESTS</string>
+
+    <string name="article_post_min_read">%1$s • %2$d min read</string>
 </resources>
