@@ -2,8 +2,11 @@ package app.chestnuts.jetnewsclone.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -14,18 +17,23 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.chestnuts.jetnewsclone.R
+import app.chestnuts.jetnewsclone.model.Post
 import app.chestnuts.jetnewsclone.model.PostsFeed
+import app.chestnuts.jetnewsclone.ui.home.views.PostCardHighlighted
 import app.chestnuts.jetnewsclone.ui.home.views.PostCardSimple
 import app.chestnuts.jetnewsclone.ui.home.views.PostListDivider
 import org.koin.androidx.compose.koinViewModel
@@ -62,9 +70,9 @@ private fun HomeScreen(
                         HomeEmptyView()
                     }
                     is HomeUiState.HasPosts -> {
-                        HomePostsView(
+                        HomeWithPostFeeds(
                             postsFeed = state.postsFeed,
-                            onClickAction = viewModel::onClickPost
+                            onClickAction = viewModel::onClickPost,
                         )
                     }
                 }
@@ -99,19 +107,53 @@ private fun HomeEmptyView(
 }
 
 @Composable
-private fun HomePostsView(
+private fun HomeWithPostFeeds(
+    postsFeed: PostsFeed,
+    onClickAction: (String) -> Unit,
+) {
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier.padding(horizontal = 16.dp),
+    ) {
+        HomeHeaderText(text = "Top stories for you")
+        HomeHighlightedPost(
+            post = postsFeed.highlightedPost,
+            onClickAction = onClickAction
+        )
+        HomeRecommendedPosts(
+            postsFeed = postsFeed,
+            onClickAction = onClickAction
+        )
+    }
+}
+
+@Composable
+fun HomeHeaderText(
+    text: String,
+) {
+    Text(
+        text = text,
+        maxLines = 1,
+        overflow = TextOverflow.Clip,
+        style = MaterialTheme.typography.titleMedium,
+        modifier = Modifier.padding(vertical = 4.dp)
+    )
+}
+
+@Composable
+private fun HomeRecommendedPosts(
     postsFeed: PostsFeed,
     onClickAction: (String) -> Unit,
     state: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(16.dp),
         state = state,
     ) {
         item {
             PostListDivider()
         }
-        items(postsFeed.allPosts) { post ->
+        items(postsFeed.recommendedPosts) { post ->
             PostCardSimple(
                 post = post,
                 onClickPost = onClickAction
@@ -119,4 +161,12 @@ private fun HomePostsView(
             PostListDivider()
         }
     }
+}
+
+@Composable
+private fun HomeHighlightedPost(
+    post: Post,
+    onClickAction: (String) -> Unit,
+) {
+    PostCardHighlighted(post, onClickAction)
 }
